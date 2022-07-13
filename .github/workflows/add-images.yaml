@@ -2,20 +2,21 @@ on:
   workflow_dispatch:
   push:
 
+
 jobs:
-  example_matrix:
+  docker_images:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         images: ["nginx:1.19", "vulhub/nginx:1.13.2", "vulhub/activemq:5.11.1"]
 
-        steps:
-          - name: Checkout
-            uses: actions/checkout@v3
-          - name: Set up Docker Buildx
-            uses: docker/setup-buildx-action@v2
-          - name: Docker Tag and Push
-            run: |
-              docker pull ${{ matrix.images }}
-              docker tag ${{ matrix.images }} ghcr.io/${{ matrix.images }}
-              docker push ghcr.io/${{ matrix.images }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Docker Tag and Push
+        run: |
+          docker pull ${{ matrix.images }}
+          docker tag ${{ matrix.images }} ghcr.io/${{ matrix.images }}
+          docker push ghcr.io/${{ matrix.images }}
